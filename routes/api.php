@@ -10,3 +10,7 @@ Route::post('/v1/contact', [
   ContactController::class,
   'store'
 ])->middleware('contact.limit');
+
+Route::get('/test-error', function () {
+    throw new Exception('Test exception');
+});

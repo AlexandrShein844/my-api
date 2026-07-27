@@ -3,9 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -53,6 +53,26 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => $e->getMessage()
                         ?: 'Request failed',
                 ], $e->getStatusCode());
+            }
+        });
+
+        $exceptions->render(function (
+            Throwable $e,
+            $request
+        ) {
+
+            if ($request->is('api/*')) {
+
+                Log::error('API Exception', [
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ]);
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Internal server error',
+                ], 500);
             }
         });
     })->create();

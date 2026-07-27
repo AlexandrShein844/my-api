@@ -28,3 +28,8 @@ Accept: application/json
     "email": "abc",
     "comment": ""
 }
+
+### Test 500 Error
+
+GET http://my-api.local/api/test-error
+Accept: application/json
