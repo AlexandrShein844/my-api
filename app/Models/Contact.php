@@ -14,4 +14,8 @@ class Contact extends Model
         'ai_sentiment',
         'ai_response',
     ];
+    protected $casts = [
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+];
 }
