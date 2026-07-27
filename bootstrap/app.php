@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,9 +19,40 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'contact.limit' => \App\Http\Middleware\ContactRateLimit::class,
         ]);
+        $middleware->api([
+            \App\Http\Middleware\LogRequests::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn(Request $request) => $request->is('api/*'),
-        );
+
+        $exceptions->render(function (
+            ValidationException $e,
+            $request
+        ) {
+
+            if ($request->is('api/*')) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+        });
+
+
+        $exceptions->render(function (
+            HttpException $e,
+            $request
+        ) {
+
+            if ($request->is('api/*')) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                        ?: 'Request failed',
+                ], $e->getStatusCode());
+            }
+        });
     })->create();
