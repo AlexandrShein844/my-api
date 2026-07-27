@@ -1,5 +1,4 @@
 *.log
-/.osp
 .DS_Store
 .env
 .env.backup
