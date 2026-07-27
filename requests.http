@@ -1,0 +1,30 @@
+### Health check
+
+GET http://my-api.local/api/v1/health
+Accept: application/json
+
+### Good Contact request
+
+POST http://my-api.local/api/v1/contact
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Александр",
+    "phone": "+79999999999",
+    "email": "test@example.com",
+    "comment": "Хочу заказать разработку сайта"
+}
+
+### Bad Contact request
+
+POST http://my-api.local/api/v1/contact
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "",
+    "phone": "123",
+    "email": "abc",
+    "comment": ""
+}
