@@ -40,7 +40,7 @@ onMounted(loadMetrics);
             </b>
         </p>
 
-        <h3>AI анализ</h3>
+        <h3>AI метрики</h3>
 
         <ul>
             <li>

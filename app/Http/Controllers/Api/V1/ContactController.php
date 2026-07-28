@@ -93,7 +93,9 @@ class ContactController extends Controller
 
         return ApiResponse::success(
             [
-                'id' => $contact->id
+                'id' => $contact->id,
+                'ai_sentiment' => $contact->ai_sentiment,
+                'ai_response' => $contact->ai_response,
             ],
             'Contact request created',
             201
