@@ -20,6 +20,8 @@ import Metrics from './components/Metrics.vue'
 
 <style scoped>
 .container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
   max-width: 700px;
   margin: 50px auto;
   padding: 20px;

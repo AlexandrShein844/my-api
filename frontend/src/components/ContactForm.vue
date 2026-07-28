@@ -1,28 +1,66 @@
 <template>
     <form @submit.prevent="submit">
-        <input v-model="form.name" placeholder="Имя" />
+        <div class="field">
+            <input
+                v-model="form.name"
+                type="text"
+                @input="clearFieldError('name')"
+                placeholder="Имя"
+            />
+            <p v-if="validationErrors.name" class="error">
+                {{ validationErrors.name[0] }}
+            </p>
+        </div>
 
-        <input v-model="form.phone" placeholder="Телефон" />
+        <div class="field">
+            <input
+                v-model="form.phone"
+                type="tel"
+                @input="clearFieldError('phone')"
+                placeholder="Телефон"
+            />
+            <p v-if="validationErrors.phone" class="error">
+                {{ validationErrors.phone[0] }}
+            </p>
+        </div>
+        <div class="field">
+            <input
+                v-model="form.email"
+                type="email"
+                @input="clearFieldError('email')"
+                placeholder="Email"
+            />
+            <p v-if="validationErrors.email" class="error">
+                {{ validationErrors.email[0] }}
+            </p>
+        </div>
 
-        <input v-model="form.email" placeholder="Email" />
-
-        <textarea v-model="form.comment" placeholder="Комментарий" />
+        <div class="field">
+            <textarea
+                v-model="form.comment"
+                @input="clearFieldError('comment')"
+                placeholder="Комментарий"
+            />
+            <p v-if="validationErrors.comment" class="error">
+                {{ validationErrors.comment[0] }}
+            </p>
+        </div>
 
         <button :disabled="loading">
             {{ loading ? "Отправка..." : "Отправить" }}
         </button>
 
-        <p v-if="message">
+        <p v-if="message" class="success">
             {{ message }}
         </p>
 
-        <p v-if="error">
+        <p v-if="error" class="error">
             {{ error }}
         </p>
 
         <div v-if="aiResult">
             <h3>AI анализ сообщения</h3>
-            <p>Настроение: {{ aiResult.ai_sentiment  }}</p>
+            <p>Настроение: {{ aiResult.ai_sentiment }}</p>
             <blockquote>
                 {{ aiResult.ai_response }}
             </blockquote>
@@ -45,25 +83,44 @@ const loading = ref(false);
 const message = ref("");
 const aiResult = ref(null);
 const error = ref("");
+const validationErrors = ref({});
+
+function clearFieldError(field) {
+    if (validationErrors.value[field]) {
+        delete validationErrors.value[field];
+    }
+}
+
+function resetForm() {
+    Object.assign(form, {
+        name: "",
+        phone: "",
+        email: "",
+        comment: "",
+    });
+}
 
 async function submit() {
     loading.value = true;
+
     message.value = "";
     error.value = "";
     aiResult.value = null;
+    validationErrors.value = {};
 
     try {
         const response = await sendContact(form);
 
         message.value = response.message;
-
         aiResult.value = response.data;
 
-        form.name = "";
-        form.phone = "";
-        form.email = "";
-        form.comment = "";
+        resetForm();
     } catch (e) {
+        if (e.errors) {
+            validationErrors.value = e.errors;
+            return;
+        }
+
         error.value = e.message ?? "Ошибка отправки";
     } finally {
         loading.value = false;
@@ -85,11 +142,29 @@ textarea {
 }
 
 textarea {
-    min-height: 120px;
+    resize: none;
+    min-height: 100px;
 }
 
 button {
     padding: 12px;
     cursor: pointer;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.success {
+    color: #16a34a;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 4px;
 }
 </style>
