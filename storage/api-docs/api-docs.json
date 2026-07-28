@@ -103,6 +103,27 @@
                     }
                 }
             }
+        },
+        "/api/v1/metrics": {
+            "get": {
+                "tags": [
+                    "Metrics"
+                ],
+                "summary": "Get API metrics",
+                "operationId": "e2195b91ec021997a7921a6667b1e377",
+                "responses": {
+                    "200": {
+                        "description": "Metrics received",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MetricsResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -118,6 +139,53 @@
                         "example": "Contact request created"
                     },
                     "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "MetricsResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Success"
+                    },
+                    "data": {
+                        "properties": {
+                            "total_contacts": {
+                                "type": "integer",
+                                "example": 32
+                            },
+                            "today_contacts": {
+                                "type": "integer",
+                                "example": 5
+                            },
+                            "sentiment": {
+                                "properties": {
+                                    "positive": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "neutral": {
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "negative": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "unknown": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
                         "type": "object"
                     }
                 },
@@ -165,6 +233,10 @@
         {
             "name": "System",
             "description": "System"
+        },
+        {
+            "name": "Metrics",
+            "description": "Metrics"
         }
     ]
 }

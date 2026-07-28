@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use App\Services\ContactService;
@@ -56,13 +57,13 @@ class ContactController extends Controller
             )
         ),
         responses: [
-new OA\Response(
-    response: 201,
-    description: "Contact created",
-    content: new OA\JsonContent(
-        ref: "#/components/schemas/ContactResponse"
-    )
-),
+            new OA\Response(
+                response: 201,
+                description: "Contact created",
+                content: new OA\JsonContent(
+                    ref: "#/components/schemas/ContactResponse"
+                )
+            ),
             new OA\Response(
                 response: 422,
                 description: "Validation error",
@@ -90,12 +91,12 @@ new OA\Response(
             $request->validated()
         );
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Contact request created',
-            'data' => [
+        return ApiResponse::success(
+            [
                 'id' => $contact->id
-            ]
-        ], 201);
+            ],
+            'Contact request created',
+            201
+        );
     }
 }

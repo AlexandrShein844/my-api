@@ -3,6 +3,7 @@
 namespace App\Services\AI;
 
 use Illuminate\Support\Facades\Log;
+use App\Enums\Sentiment;
 use OpenAI;
 
 class AiService
@@ -67,15 +68,25 @@ class AiService
         true
       );
 
+      if (!is_array($result)) {
+        $result = [];
+      }
+
+      $sentiment = $result['sentiment'] ?? Sentiment::Unknown->value;
+
+      if (!in_array(
+        $sentiment,
+        array_column(Sentiment::cases(), 'value'),
+        true
+      )) {
+        $sentiment = Sentiment::Unknown->value;
+      }
+
 
       return [
-        'sentiment' =>
-        $result['sentiment'] ?? 'unknown',
-
-        'response' =>
-        $result['response']
-          ??
-          'Спасибо за ваше обращение.',
+        'sentiment' => $sentiment,
+        'response' => $result['response']
+          ?? 'Спасибо за ваше обращение.',
       ];
     } catch (\Throwable $exception) {
 
@@ -87,7 +98,7 @@ class AiService
 
       return [
 
-        'sentiment' => 'unknown',
+        'sentiment' => Sentiment::Unknown->value,
 
         'response' =>
         'Спасибо за обращение. Мы скоро свяжемся с вами.',
