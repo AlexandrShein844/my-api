@@ -15,10 +15,10 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "Александр",
+    "name": "София",
     "phone": "+79999999999",
-    "email": "test@example.com",
-    "comment": "Хочу заказать разработку сайта"
+    "email": "Al3xandrShein@yandex.ru",
+    "comment": "вы сделали отличный сайт, спасибо!"
 }
 
 ### Bad Contact request
