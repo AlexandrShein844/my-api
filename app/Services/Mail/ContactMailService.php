@@ -10,22 +10,28 @@ use Illuminate\Support\Facades\Log;
 
 class ContactMailService
 {
-public function send(Contact $contact): void
-{
-    try {
-        Mail::to(config('mail.owner'))
-            ->send(new ContactReceivedMail($contact));
+    public function send(Contact $contact): void
+    {
+        try {
 
-        Mail::to($contact->email)
-            ->send(new ContactConfirmationMail($contact));
+            Mail::to(config('mail.owner'))
+                ->send(new ContactReceivedMail($contact));
 
-    } catch (\Throwable $exception) {
+            Mail::to($contact->email)
+                ->send(new ContactConfirmationMail($contact));
 
-        Log::error('Failed to send contact emails', [
-            'contact_id' => $contact->id,
-            'email' => $contact->email,
-            'error' => $exception->getMessage(),
-        ]);
+
+            Log::info('Contact emails sent', [
+                'contact_id' => $contact->id,
+                'email' => $contact->email,
+            ]);
+        } catch (\Throwable $exception) {
+
+            Log::error('Failed to send contact emails', [
+                'contact_id' => $contact->id,
+                'email' => $contact->email,
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
-}
 }
