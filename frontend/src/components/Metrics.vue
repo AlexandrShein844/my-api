@@ -1,69 +1,124 @@
+<template>
+    <section class="metrics-section">
+        <div class="container">
+
+            <h2>Статистика API</h2>
+
+            <p v-if="loading">
+                Загрузка...
+            </p>
+
+            <p
+                v-else-if="error"
+                class="error"
+            >
+                {{ error }}
+            </p>
+
+            <div
+                v-else
+                class="metrics-grid"
+            >
+                <div class="metric-card">
+                    <h3>Всего отзывов</h3>
+                    <p>{{ metrics.total_contacts }}</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Сегодня</h3>
+                    <p>{{ metrics.today_contacts }}</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Позитивных</h3>
+                    <p>{{ metrics.sentiment.positive }}</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Нейтральных</h3>
+                    <p>{{ metrics.sentiment.neutral }}</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Негативных</h3>
+                    <p>{{ metrics.sentiment.negative }}</p>
+                </div>
+
+                <div class="metric-card">
+                    <h3>Не определено</h3>
+                    <p>{{ metrics.sentiment.unknown }}</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</template>
+
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue'
+import { getMetrics } from '../api/metrics'
 
-import { getMetrics } from "../api/metrics";
+const loading = ref(true)
+const error = ref('')
 
-const metrics = ref(null);
-
-const error = ref(null);
+const metrics = ref({
+    total_contacts: 0,
+    today_contacts: 0,
+    sentiment: {
+        positive: 0,
+        neutral: 0,
+        negative: 0,
+        unknown: 0,
+    },
+})
 
 async function loadMetrics() {
     try {
-        const response = await getMetrics();
+        const response = await getMetrics()
 
-        metrics.value = response.data;
+        metrics.value = response.data
     } catch (e) {
-        error.value = "Не удалось загрузить статистику";
+        error.value = e.message
+    } finally {
+        loading.value = false
     }
 }
 
-onMounted(loadMetrics);
+onMounted(loadMetrics)
 </script>
 
-<template>
-    <div v-if="error">
-        {{ error }}
-    </div>
+<style scoped>
 
-    <div v-else-if="metrics">
-        <p>
-            Всего обращений:
-            <b>
-                {{ metrics.total_contacts }}
-            </b>
-        </p>
+.metrics-section{
+    padding:80px 0;
+}
 
-        <p>
-            Сегодня:
-            <b>
-                {{ metrics.today_contacts }}
-            </b>
-        </p>
+.metrics-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+    margin-top:30px;
+}
 
-        <h3>AI метрики</h3>
+.metric-card{
+    padding:24px;
+    border-radius:12px;
+    background:white;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    text-align:center;
+}
 
-        <ul>
-            <li>
-                Положительные:
-                {{ metrics.sentiment.positive }}
-            </li>
+.metric-card h3{
+    margin-bottom:10px;
+}
 
-            <li>
-                Нейтральные:
-                {{ metrics.sentiment.neutral }}
-            </li>
+.metric-card p{
+    font-size:32px;
+    font-weight:bold;
+}
 
-            <li>
-                Отрицательные:
-                {{ metrics.sentiment.negative }}
-            </li>
+.error{
+    color:red;
+}
 
-            <li>
-                Неизвестные:
-                {{ metrics.sentiment.unknown }}
-            </li>
-        </ul>
-    </div>
-
-    <div v-else>Загрузка...</div>
-</template>
+</style>
