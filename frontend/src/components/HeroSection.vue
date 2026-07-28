@@ -8,7 +8,7 @@
             </p>
 
             <h1>
-                Developer Landing API
+                Developer Landing
             </h1>
 
             <p class="hero-description">
