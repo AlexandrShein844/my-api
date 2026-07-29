@@ -19,11 +19,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('contacts', function (Blueprint $table) {
-            $table->string('sentiment')
-                ->nullable();
+            if (Schema::hasColumn('contacts', 'sentiment')) {
+                $table->dropColumn('sentiment');
+            }
 
-            $table->text('ai_reply')
-                ->nullable();
+            if (Schema::hasColumn('contacts', 'ai_reply')) {
+                $table->dropColumn('ai_reply');
+            }
         });
     }
 };
