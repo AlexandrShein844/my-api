@@ -20,3 +20,7 @@ Route::get(
 Route::get('/test-error', function () {
     throw new Exception('Test exception');
 });
+
+Route::get('/mail-config', function () {
+    return config('mail');
+});
