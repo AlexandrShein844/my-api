@@ -66,3 +66,7 @@ Accept: application/json
 ### Gmail Test
 GET http://my-api.local/api/gmail-test
 Accept: application/json
+
+### Resend Test
+GET http://my-api.local/api/resend-test
+Accept: application/json

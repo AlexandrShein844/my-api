@@ -61,3 +61,13 @@ Route::get('/gmail-test', function () {
         'errstr' => $errstr,
     ]);
 });
+
+Route::get('/resend-test', function () {
+    $fp = @fsockopen('api.resend.com', 443, $errno, $errstr, 10);
+
+    return [
+        'connected' => (bool) $fp,
+        'errno' => $errno,
+        'errstr' => $errstr,
+    ];
+});
