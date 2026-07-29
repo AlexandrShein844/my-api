@@ -34,3 +34,30 @@ Route::get('/smtp', function () {
         'errstr' => $errstr,
     ];
 });
+
+Route::get('/dns-test', function () {
+    return response()->json([
+        'host' => 'smtp.yandex.ru',
+        'ip' => gethostbyname('smtp.yandex.ru'),
+    ]);
+});
+
+Route::get('/google-test', function () {
+    $fp = @fsockopen('google.com', 443, $errno, $errstr, 10);
+
+    return response()->json([
+        'connected' => (bool) $fp,
+        'errno' => $errno,
+        'errstr' => $errstr,
+    ]);
+});
+
+Route::get('/gmail-test', function () {
+    $fp = @fsockopen('smtp.gmail.com', 587, $errno, $errstr, 10);
+
+    return response()->json([
+        'connected' => (bool) $fp,
+        'errno' => $errno,
+        'errstr' => $errstr,
+    ]);
+});

@@ -51,3 +51,18 @@ Accept: application/json
 GET http://my-api.local/api/smtp
 Accept: application/json
 
+
+### DNS Test
+
+GET http://my-api.local/api/dns-test
+Accept: application/json
+
+
+### Google Test
+
+GET http://my-api.local/api/google-test
+Accept: application/json
+
+### Gmail Test
+GET http://my-api.local/api/gmail-test
+Accept: application/json
