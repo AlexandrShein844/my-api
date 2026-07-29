@@ -1,11 +1,62 @@
+<template>
+    <div class="container">
+        <p v-if="loading">Загрузка...</p>
+
+        <p v-else-if="error" class="error">
+            {{ error }}
+        </p>
+
+        <div v-else class="metrics-grid">
+            <div class="metric-card">
+                <h3>Всего отзывов</h3>
+                <p>{{ metrics.total_contacts }}</p>
+            </div>
+
+            <div class="metric-card">
+                <h3>Сегодня</h3>
+                <p>{{ metrics.today_contacts }}</p>
+            </div>
+
+            <div class="metric-card">
+                <h3>Позитивных</h3>
+                <p>{{ metrics.sentiment.positive }}</p>
+            </div>
+
+            <div class="metric-card">
+                <h3>Нейтральных</h3>
+                <p>{{ metrics.sentiment.neutral }}</p>
+            </div>
+
+            <div class="metric-card">
+                <h3>Негативных</h3>
+                <p>{{ metrics.sentiment.negative }}</p>
+            </div>
+
+            <div class="metric-card">
+                <h3>Не определено</h3>
+                <p>{{ metrics.sentiment.unknown }}</p>
+            </div>
+        </div>
+    </div>
+</template>
+
 <script setup>
 import { onMounted, ref } from "vue";
-
 import { getMetrics } from "../api/metrics";
 
-const metrics = ref(null);
+const loading = ref(true);
+const error = ref("");
 
-const error = ref(null);
+const metrics = ref({
+    total_contacts: 0,
+    today_contacts: 0,
+    sentiment: {
+        positive: 0,
+        neutral: 0,
+        negative: 0,
+        unknown: 0,
+    },
+});
 
 async function loadMetrics() {
     try {
@@ -13,57 +64,43 @@ async function loadMetrics() {
 
         metrics.value = response.data;
     } catch (e) {
-        error.value = "Не удалось загрузить статистику";
+        error.value = e.message;
+    } finally {
+        loading.value = false;
     }
 }
 
 onMounted(loadMetrics);
 </script>
 
-<template>
-    <div v-if="error">
-        {{ error }}
-    </div>
+<style scoped>
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    margin-top: 30px;
+}
 
-    <div v-else-if="metrics">
-        <p>
-            Всего обращений:
-            <b>
-                {{ metrics.total_contacts }}
-            </b>
-        </p>
+.metric-card {
+    padding: 24px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    min-width: 80%;
+}
 
-        <p>
-            Сегодня:
-            <b>
-                {{ metrics.today_contacts }}
-            </b>
-        </p>
+.metric-card h3 {
+    margin-bottom: 10px;
+}
 
-        <h3>AI метрики</h3>
+.metric-card p {
+    font-size: 32px;
+    font-weight: bold;
+}
 
-        <ul>
-            <li>
-                Положительные:
-                {{ metrics.sentiment.positive }}
-            </li>
-
-            <li>
-                Нейтральные:
-                {{ metrics.sentiment.neutral }}
-            </li>
-
-            <li>
-                Отрицательные:
-                {{ metrics.sentiment.negative }}
-            </li>
-
-            <li>
-                Неизвестные:
-                {{ metrics.sentiment.unknown }}
-            </li>
-        </ul>
-    </div>
-
-    <div v-else>Загрузка...</div>
-</template>
+.error {
+    color: red;
+}
+</style>

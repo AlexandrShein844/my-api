@@ -40,7 +40,7 @@
                 v-model="form.comment"
                 @input="clearFieldError('comment')"
                 placeholder="Комментарий"
-            />
+            ></textarea>
             <p v-if="validationErrors.comment" class="error">
                 {{ validationErrors.comment[0] }}
             </p>
@@ -50,8 +50,8 @@
             {{ loading ? "Отправка..." : "Отправить" }}
         </button>
 
-        <p v-if="message" class="success">
-            {{ message }}
+        <p v-if="successMessage" class="success">
+            {{ successMessage }}
         </p>
 
         <p v-if="error" class="error">
@@ -60,7 +60,7 @@
 
         <div v-if="aiResult">
             <h3>AI анализ сообщения</h3>
-            <p>Настроение: {{ aiResult.ai_sentiment }}</p>
+            <p>Настроение: {{ sentimentLabel(aiResult.ai_sentiment) }}</p>
             <blockquote>
                 {{ aiResult.ai_response }}
             </blockquote>
@@ -80,10 +80,21 @@ const form = reactive({
 });
 
 const loading = ref(false);
-const message = ref("");
+const successMessage = ref("");
 const aiResult = ref(null);
 const error = ref("");
 const validationErrors = ref({});
+
+const sentimentLabels = {
+    positive: 'Положительное',
+    neutral: 'Нейтральное',
+    negative: 'Отрицательное',
+    unknown: 'Не определено',
+};
+
+function sentimentLabel(value) {
+    return sentimentLabels[value] ?? 'Не определено';
+}
 
 function clearFieldError(field) {
     if (validationErrors.value[field]) {
@@ -103,7 +114,7 @@ function resetForm() {
 async function submit() {
     loading.value = true;
 
-    message.value = "";
+    successMessage.value = "";
     error.value = "";
     aiResult.value = null;
     validationErrors.value = {};
@@ -111,7 +122,7 @@ async function submit() {
     try {
         const response = await sendContact(form);
 
-        message.value = response.message;
+        successMessage.value = "Сообщение отправлено";
         aiResult.value = response.data;
 
         resetForm();
