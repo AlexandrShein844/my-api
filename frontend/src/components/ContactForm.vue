@@ -46,7 +46,7 @@
             </p>
         </div>
 
-        <button :disabled="loading">
+        <button :disabled="loading" class="apply-button">
             {{ loading ? "Отправка..." : "Отправить" }}
         </button>
 
@@ -59,11 +59,17 @@
         </p>
 
         <div v-if="aiResult">
-            <h3>AI анализ сообщения</h3>
-            <p>Настроение: {{ sentimentLabel(aiResult.ai_sentiment) }}</p>
-            <blockquote>
-                {{ aiResult.ai_response }}
-            </blockquote>
+            <div class="ai-container">
+                <h3>AI анализ сообщения</h3>
+                <div class="text">
+                    <p>
+                        Настроение: {{ sentimentLabel(aiResult.ai_sentiment) }}
+                    </p>
+                    <blockquote>
+                        {{ aiResult.ai_response }}
+                    </blockquote>
+                </div>
+            </div>
         </div>
     </form>
 </template>
@@ -71,6 +77,8 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { sendContact } from "../api/contact";
+
+const emit = defineEmits(["success"]);
 
 const form = reactive({
     name: "",
@@ -86,14 +94,14 @@ const error = ref("");
 const validationErrors = ref({});
 
 const sentimentLabels = {
-    positive: 'Положительное',
-    neutral: 'Нейтральное',
-    negative: 'Отрицательное',
-    unknown: 'Не определено',
+    positive: "Положительное",
+    neutral: "Нейтральное",
+    negative: "Отрицательное",
+    unknown: "Не определено",
 };
 
 function sentimentLabel(value) {
-    return sentimentLabels[value] ?? 'Не определено';
+    return sentimentLabels[value] ?? "Не определено";
 }
 
 function clearFieldError(field) {
@@ -124,6 +132,8 @@ async function submit() {
 
         successMessage.value = "Сообщение отправлено";
         aiResult.value = response.data;
+        
+        emit("success");
 
         resetForm();
     } catch (e) {
@@ -167,6 +177,20 @@ button {
     flex-direction: column;
 }
 
+.apply-button {
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: none;
+    transition: 0.2s;
+}
+
+.apply-button:hover {
+    background: #1d4ed8;
+}
+
 .success {
     color: #16a34a;
     font-size: 14px;
@@ -177,5 +201,20 @@ button {
     color: #dc2626;
     font-size: 14px;
     margin-top: 4px;
+}
+
+.ai-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    padding: 15px;
+    gap: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    .text {
+        font-size: 14px;
+        color: #374151;
+    }
 }
 </style>

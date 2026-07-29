@@ -1,9 +1,16 @@
 <script setup>
+import { ref } from "vue";
 import HeroSection from "./components/HeroSection.vue";
 import AboutSection from "./components/AboutSection.vue";
 import MetricsSection from "./components/MetricSection.vue";
 import ContactSection from "./components/ContactSection.vue";
 import FooterSection from "./components/FooterSection.vue";
+
+const metricsKey = ref(0);
+
+function refreshMetrics() {
+    metricsKey.value++;
+}
 </script>
 
 <template>
@@ -11,9 +18,9 @@ import FooterSection from "./components/FooterSection.vue";
 
     <AboutSection />
 
-    <ContactSection />
-    
-    <MetricsSection />
+    <ContactSection @contact-sent="refreshMetrics" />
+
+    <MetricsSection :key="metricsKey" />
 
     <FooterSection />
 </template>

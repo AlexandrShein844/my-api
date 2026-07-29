@@ -18,7 +18,7 @@
 
             <div class="form-wrapper">
 
-                <ContactForm />
+                <ContactForm @success="emit('contact-sent')" />
 
             </div>
 
@@ -29,6 +29,11 @@
 
 <script setup>
 import ContactForm from './ContactForm.vue'
+
+const emit = defineEmits([
+    'contact-sent'
+])
+
 </script>
 
 
