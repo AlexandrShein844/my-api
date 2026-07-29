@@ -32,6 +32,7 @@ class ContactMailService
                 'email' => $contact->email,
                 'error' => $exception->getMessage(),
             ]);
+            throw $exception;
         }
     }
 }
