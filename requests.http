@@ -44,3 +44,10 @@ Accept: application/json
 
 GET http://my-api.local/api/mail-config
 Accept: application/json
+
+
+### SMTP Status
+
+GET http://my-api.local/api/smtp
+Accept: application/json
+

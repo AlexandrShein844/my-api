@@ -24,3 +24,13 @@ Route::get('/test-error', function () {
 Route::get('/mail-config', function () {
     return config('mail');
 });
+
+Route::get('/smtp', function () {
+    $fp = @fsockopen('smtp.yandex.ru', 587, $errno, $errstr, 10);
+
+    return [
+        'connected' => (bool)$fp,
+        'errno' => $errno,
+        'errstr' => $errstr,
+    ];
+});
