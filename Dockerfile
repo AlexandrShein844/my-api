@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.3-cli
 
 WORKDIR /var/www/html
 
@@ -10,20 +10,33 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    nodejs \
-    npm \
- && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring xml zip intl \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libsqlite3-dev \
+ && docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    pdo_sqlite \
+    mbstring \
+    xml \
+    zip \
+    intl \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
-RUN npm install
-RUN npm run build
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --prefer-dist \
+    --no-interaction
 
-RUN php artisan key:generate
+RUN mkdir -p database \
+ && touch database/database.sqlite
+
+RUN php artisan config:cache \
+ && php artisan route:cache
 
 EXPOSE 8000
 
