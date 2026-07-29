@@ -4,8 +4,9 @@
 
 ### Установка зависимостей
 
+Откройте терминал в корневой папке проекта и выполните:
+
 ```bash
-cd c:/OSPanel/home/my-api
 composer install
 npm install
 ```
@@ -15,12 +16,12 @@ npm install
 Скопируйте файл конфигурации:
 
 ```bash
-copy .env.example .env
+cp .env.example .env
 ```
 
-Затем задайте переменные:
+Затем откройте `.env` и задайте основные переменные:
 
-- `APP_URL=http://my-api.local`
+- `APP_URL=http://localhost:8000`
 - `FRONTEND_URL=http://localhost:3000`
 - `OPENAI_API_KEY=ваш_ключ`
 - `OPENAI_BASE_URL=https://openrouter.ai/api/v1`
@@ -28,14 +29,25 @@ copy .env.example .env
 - `MAIL_MAILER=log`
 - `MAIL_OWNER=your-owner@example.com`
 - `MAIL_FROM_ADDRESS=hello@example.com`
-- `DB_CONNECTION=sqlite` или другая СУБД
+- `MAIL_FROM_NAME="${APP_NAME}"
+- `DB_CONNECTION=sqlite`
 
-Для SQLite можно создать файл:
+Для Windows-пользователей команда копирования будет выглядеть как:
+
+```powershell
+copy .env.example .env
+```
+
+### Локальная подготовка
+
+Сгенерируйте ключ приложения и выполните миграции:
 
 ```bash
 php artisan key:generate
 php artisan migrate
 ```
+
+Если используете SQLite, убедитесь, что файл базы данных доступен для записи.
 
 ### Запуск проекта
 
@@ -44,25 +56,34 @@ php artisan serve
 npm run dev
 ```
 
-Если нужно только backend:
+Если нужен только backend:
 
 ```bash
 php artisan serve
 ```
 
-### Команды
+### Полезные команды
 
 - `composer install` — установка PHP-зависимостей
 - `npm install` — установка фронтенд-зависимостей
 - `php artisan migrate` — запуск миграций
-- `npm run dev` — запуск Vite сервера
+- `php artisan serve` — запуск локального сервера
+- `npm run dev` — запуск фронтенд-сервера
 - `php artisan test` — запуск тестов
 - `php artisan l5-swagger:generate` — генерация OpenAPI спецификации
 
-## 1.1. Продакшн-ссылки
+### Развёртывание
+
+Проект можно деплоить на любую платформу, поддерживающую PHP и Laravel. Для Render достаточно указать правильные переменные окружения и при необходимости сгенерировать Swagger через:
+
+```bash
+php artisan l5-swagger:generate
+```
+
+### Продакшн-ссылки
 
 - Swagger: https://landing-integration-ai-fullstack.onrender.com/api/documentation
-- Фронт: https://landing-integration-ai-frontend-1.onrender.com/ (Render не обрабатывает smtp во избежание спама, работоспособность почты лучше смотреть локально!)
+- Фронт: https://landing-integration-ai-frontend-1.onrender.com/
 - Бэкенд: https://landing-integration-ai-fullstack.onrender.com
 
 ---
