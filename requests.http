@@ -5,12 +5,12 @@ Accept: application/json
 
 ### Metrics
 
-GET http://my-api.local/api/v1/metrics
+GET http://my-api.local/api/metrics
 Accept: application/json
 
 ### Good Contact request
 
-POST http://my-api.local/api/v1/contact
+POST http://my-api.local/api/contact
 Content-Type: application/json
 Accept: application/json
 
@@ -23,7 +23,7 @@ Accept: application/json
 
 ### Bad Contact request
 
-POST http://my-api.local/api/v1/contact
+POST http://my-api.local/api/contact
 Content-Type: application/json
 Accept: application/json
 

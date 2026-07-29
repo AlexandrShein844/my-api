@@ -14,14 +14,6 @@ class ContactMailService
     {
         try {
 
-            dd([
-                'mailer' => config('mail.default'),
-                'host' => config('mail.mailers.smtp.host'),
-                'port' => config('mail.mailers.smtp.port'),
-                'username' => config('mail.mailers.smtp.username'),
-                'owner' => config('mail.owner'),
-            ]);
-
             Mail::to(config('mail.owner'))
                 ->send(new ContactReceivedMail($contact));
 
@@ -40,7 +32,6 @@ class ContactMailService
                 'email' => $contact->email,
                 'error' => $exception->getMessage(),
             ]);
-            throw $exception;
         }
     }
 }

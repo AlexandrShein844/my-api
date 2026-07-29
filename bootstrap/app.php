@@ -63,12 +63,15 @@ return Application::configure(basePath: dirname(__DIR__))
 
             if ($request->is('api/*')) {
 
+                Log::error('API Exception', [
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ]);
+
                 return response()->json([
                     'success' => false,
-                    'message' => $e->getMessage(),
-                    'exception' => get_class($e),
-                    'file' => basename($e->getFile()),
-                    'line' => $e->getLine(),
+                    'message' => 'Internal server error',
                 ], 500);
             }
         });
