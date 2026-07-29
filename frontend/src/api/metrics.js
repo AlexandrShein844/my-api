@@ -1,4 +1,4 @@
-const API_URL = 'http://my-api.local/api'
+const API_URL = import.meta.env.VITE_API_URL;
 
 
 export async function getMetrics(){
