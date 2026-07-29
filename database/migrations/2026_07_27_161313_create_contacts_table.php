@@ -20,12 +20,6 @@ public function up(): void
 
         $table->text('comment');
 
-        $table->string('ai_sentiment')
-            ->nullable();
-
-        $table->text('ai_response')
-            ->nullable();
-
         $table->timestamps();
     });
 }
