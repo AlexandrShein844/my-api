@@ -12,13 +12,13 @@
         }
     ],
     "paths": {
-        "/api/v1/contact": {
+        "/api/contact": {
             "post": {
                 "tags": [
                     "Contact"
                 ],
                 "summary": "Create contact request",
-                "operationId": "869994463d56ca59fb1095ac89a45e84",
+                "operationId": "fbede23323a33af8f5ed0c54942b20d1",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -90,13 +90,13 @@
                 }
             }
         },
-        "/api/v1/health": {
+        "/api/health": {
             "get": {
                 "tags": [
                     "System"
                 ],
                 "summary": "API health check",
-                "operationId": "75aa2f24b75e1cb18ac69fb7ff10bc7b",
+                "operationId": "c873d7f3d9f52c19cd7a1b4bebfe02df",
                 "responses": {
                     "200": {
                         "description": "Successful response"
@@ -104,13 +104,13 @@
                 }
             }
         },
-        "/api/v1/metrics": {
+        "/api/metrics": {
             "get": {
                 "tags": [
                     "Metrics"
                 ],
                 "summary": "Get API metrics",
-                "operationId": "e2195b91ec021997a7921a6667b1e377",
+                "operationId": "e2aae09564286a1e68e4833f16af44e1",
                 "responses": {
                     "200": {
                         "description": "Metrics received",

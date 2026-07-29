@@ -1,4 +1,4 @@
-const API_URL = 'http://my-api.local/api/v1'
+const API_URL = 'http://my-api.local/api'
 
 
 export async function getMetrics(){

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ use App\OpenApi\Schemas\RateLimitErrorResponse;
 class ContactController extends Controller
 {
     #[OA\Post(
-        path: "/api/v1/contact",
+        path: "/api/contact",
         summary: "Create contact request",
         tags: ["Contact"],
         requestBody: new OA\RequestBody(

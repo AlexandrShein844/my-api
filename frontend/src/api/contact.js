@@ -1,4 +1,4 @@
-const API_URL = 'http://my-api.local/api/v1';
+const API_URL = 'http://my-api.local/api';
 
 export async function sendContact(data) {
     const response = await fetch(`${API_URL}/contact`, {

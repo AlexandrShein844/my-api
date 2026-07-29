@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ use App\OpenApi\Schemas\MetricsResponse;
 class MetricsController extends Controller
 {
     #[OA\Get(
-        path: "/api/v1/metrics",
+        path: "/api/metrics",
         summary: "Get API metrics",
         tags: ["Metrics"],
 

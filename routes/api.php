@@ -1,19 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\HealthController;
-use App\Http\Controllers\Api\V1\ContactController;
-use App\Http\Controllers\Api\V1\MetricsController;
+use App\Http\Controllers\Api\HealthController;
+use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\MetricsController;
 
-Route::get('/v1/health', [HealthController::class, 'index']);
+Route::get('/health', [HealthController::class, 'index']);
 
-Route::post('/v1/contact', [
+Route::post('/contact', [
   ContactController::class,
   'store'
 ])->middleware('contact.limit');
 
 Route::get(
-    '/v1/metrics',
+    '/metrics',
     [MetricsController::class, 'index']
 );
 

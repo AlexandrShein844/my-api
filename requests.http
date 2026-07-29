@@ -1,6 +1,6 @@
 ### Health check
 
-GET http://my-api.local/api/v1/health
+GET http://my-api.local/api/health
 Accept: application/json
 
 ### Metrics

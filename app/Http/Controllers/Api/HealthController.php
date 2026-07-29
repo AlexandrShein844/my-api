@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\ApiResponse;
@@ -9,7 +9,7 @@ use OpenApi\Attributes as OA;
 class HealthController extends Controller
 {
     #[OA\Get(
-        path: "/api/v1/health",
+        path: "/api/health",
         summary: "API health check",
         tags: ["System"],
         responses: [
