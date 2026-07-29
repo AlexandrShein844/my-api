@@ -9,16 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('contacts', function (Blueprint $table) {
-            $table->dropColumn([
-                'sentiment',
-                'ai_reply',
-            ]);
-        });
-    }
 
-    public function down(): void
-    {
-        Schema::table('contacts', function (Blueprint $table) {
             if (Schema::hasColumn('contacts', 'sentiment')) {
                 $table->dropColumn('sentiment');
             }
@@ -26,6 +17,22 @@ return new class extends Migration
             if (Schema::hasColumn('contacts', 'ai_reply')) {
                 $table->dropColumn('ai_reply');
             }
+
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('contacts', function (Blueprint $table) {
+
+            if (!Schema::hasColumn('contacts', 'sentiment')) {
+                $table->string('sentiment')->nullable();
+            }
+
+            if (!Schema::hasColumn('contacts', 'ai_reply')) {
+                $table->text('ai_reply')->nullable();
+            }
+
         });
     }
 };
