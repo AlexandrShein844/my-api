@@ -71,3 +71,23 @@ Route::get('/resend-test', function () {
         'errstr' => $errstr,
     ];
 });
+
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/send-test', function () {
+    try {
+        Mail::raw('Test from Resend', function ($message) {
+            $message->to('Al3xandrShein@yandex.ru')
+                    ->subject('Resend Test');
+        });
+
+        return ['success' => true];
+    } catch (\Throwable $e) {
+        return [
+            'success' => false,
+            'class' => get_class($e),
+            'message' => $e->getMessage(),
+            'previous' => $e->getPrevious()?->getMessage(),
+        ];
+    }
+});

@@ -70,3 +70,8 @@ Accept: application/json
 ### Resend Test
 GET http://my-api.local/api/resend-test
 Accept: application/json
+
+
+### Send Test
+GET http://my-api.local/api/send-test
+Accept: application/json
