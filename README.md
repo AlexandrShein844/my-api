@@ -59,6 +59,12 @@ php artisan serve
 - `php artisan test` — запуск тестов
 - `php artisan l5-swagger:generate` — генерация OpenAPI спецификации
 
+## 1.1. Продакшн-ссылки
+
+- Swagger: https://landing-integration-ai-fullstack.onrender.com/api/documentation
+- Фронт: https://landing-integration-ai-frontend-1.onrender.com/ (Render не обрабатывает smtp во избежание спама, работоспособность почты лучше смотреть локально!)
+- Бэкенд: https://landing-integration-ai-fullstack.onrender.com
+
 ---
 
 ## 2. Стек технологий
@@ -94,9 +100,9 @@ php artisan serve
 - `app/Http/Controllers/Api` — контроллеры API
 - `app/Http/Requests` — правила валидации
 - `app/Services` — бизнес-логика сервиса
-  - `AI/AiService.php` — работа с AI
-  - `Mail/ContactMailService.php` — отправка писем
-  - `MetricsService.php` — агрегирование статистики
+    - `AI/AiService.php` — работа с AI
+    - `Mail/ContactMailService.php` — отправка писем
+    - `MetricsService.php` — агрегирование статистики
 - `app/Models/Contact.php` — модель контакта
 - `routes/api.php` — API-маршруты
 - `storage/logs` — логи приложения
@@ -127,10 +133,10 @@ Laravel выбран за его встроенный DI-контейнер, п�
 
 ```json
 {
-  "name": "Александр",
-  "phone": "+79999999999",
-  "email": "test@example.com",
-  "comment": "Хочу заказать разработку сайта"
+    "name": "Александр",
+    "phone": "+79999999999",
+    "email": "test@example.com",
+    "comment": "Хочу заказать разработку сайта"
 }
 ```
 
@@ -138,13 +144,13 @@ Laravel выбран за его встроенный DI-контейнер, п�
 
 ```json
 {
-  "success": true,
-  "message": "Contact request created",
-  "data": {
-    "id": 1,
-    "ai_sentiment": "positive",
-    "ai_response": "Спасибо за обращение. Мы скоро свяжемся с вами."
-  }
+    "success": true,
+    "message": "Contact request created",
+    "data": {
+        "id": 1,
+        "ai_sentiment": "positive",
+        "ai_response": "Спасибо за обращение. Мы скоро свяжемся с вами."
+    }
 }
 ```
 
@@ -163,11 +169,11 @@ Laravel выбран за его встроенный DI-контейнер, п�
 
 ```json
 {
-  "success": true,
-  "message": "Success",
-  "data": {
-    "status": "ok"
-  }
+    "success": true,
+    "message": "Success",
+    "data": {
+        "status": "ok"
+    }
 }
 ```
 
@@ -177,18 +183,18 @@ Laravel выбран за его встроенный DI-контейнер, п�
 
 ```json
 {
-  "success": true,
-  "message": "Success",
-  "data": {
-    "total_contacts": 10,
-    "today_contacts": 2,
-    "sentiment": {
-      "positive": 4,
-      "neutral": 3,
-      "negative": 1,
-      "unknown": 2
+    "success": true,
+    "message": "Success",
+    "data": {
+        "total_contacts": 10,
+        "today_contacts": 2,
+        "sentiment": {
+            "positive": 4,
+            "neutral": 3,
+            "negative": 1,
+            "unknown": 2
+        }
     }
-  }
 }
 ```
 
@@ -221,8 +227,8 @@ Backend анализирует комментарий и возвращает:
 
 ```json
 {
-  "sentiment": "unknown",
-  "response": "Спасибо за обращение. Мы скоро свяжемся с вами."
+    "sentiment": "unknown",
+    "response": "Спасибо за обращение. Мы скоро свяжемся с вами."
 }
 ```
 
